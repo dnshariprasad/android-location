@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             }
         }
     }
-
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (checkLocationPermission()) {
@@ -100,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     private void showToast(String message) {
-        Toast.makeText(MainActivity.this, "", Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
     private void requestPermission(String[] permissions, int requestCode) {
