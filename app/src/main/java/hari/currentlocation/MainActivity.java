@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -14,20 +13,23 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 
-public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
     public static final int REQUEST_PERMISSION_LOCATION = 1;
     public static String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private GoogleApiClient mGoogleApiClient;
     private Location mLocation;
-    private TextView tv_location_info;
+    private TextView tv_location_info, tv_location_updates_info;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         tv_location_info = (TextView) findViewById(R.id.tv_location_info);
+        tv_location_updates_info = (TextView) findViewById(R.id.tv_location_updates_info);
         if (!checkLocationPermission())
             requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
         buildGoogleAdiClient();
@@ -67,6 +69,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             if (mLocation != null) {
                 tv_location_info.setText(String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
             }
+            getLocationUpdates();
+        } else {
+            requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        if (checkLocationPermission()) {
+            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (mLocation != null) {
+                tv_location_updates_info.setText(String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
+            }
         } else {
             requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
         }
@@ -74,12 +89,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        showToast(getString(R.string.toast_location_failed));
     }
 
     @Override
-    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+        showToast(getString(R.string.toast_location_failed));
     }
 
     /**
@@ -107,6 +122,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     }
 
     /**
+     * creating location changed request
+     */
+    private void getLocationUpdates() {
+        if (checkLocationPermission()) {
+            LocationRequest mLocationRequest = LocationRequest.create();
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            mLocationRequest.setInterval(1000);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+        } else {
+            requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
+        }
+    }
+    /**
      * Requests permission
      * @param permissions
      * @param requestCode
@@ -117,4 +145,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private void showToast(String message) {
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
+
+
 }
