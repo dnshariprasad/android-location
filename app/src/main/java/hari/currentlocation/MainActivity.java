@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         tv_location_info = (TextView) findViewById(R.id.tv_location_info);
         if (!checkLocationPermission())
             requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
-        builldGoogleApiClient();
+        buildGoogleAdiClient();
     }
 
     @Override
@@ -82,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
     }
 
+    /**
+     * Checks whether the location permission granted or not
+     *
+     * @return
+     */
     private boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
             return true;
@@ -90,7 +95,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         return false;
     }
 
-    private void builldGoogleApiClient() {
+    /**
+     * creating google api client
+     */
+    private void buildGoogleAdiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
@@ -98,11 +106,15 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                 .build();
     }
 
-    private void showToast(String message) {
-        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
-    }
-
+    /**
+     * Requests permission
+     * @param permissions
+     * @param requestCode
+     */
     private void requestPermission(String[] permissions, int requestCode) {
         ActivityCompat.requestPermissions(this, permissions, requestCode);
+    }
+    private void showToast(String message) {
+        Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 }
