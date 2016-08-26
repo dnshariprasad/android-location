@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "190136906763",
+    "project_id": "currentlocation-141510"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190136906763:android:b74d6901dd7383df",
+        "android_client_info": {
+          "package_name": "hari.currentlocation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190136906763-jhrlt8l7tk6vsl213mfandadu1sqfmru.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hari.currentlocation",
+            "certificate_hash": "9266D750F87B1F346914F543C90C0219C4E2B94F"
+          }
+        },
+        {
+          "client_id": "190136906763-pr8ma2kno6ooqltvcf6v2djm8o7v5tif.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbT1FWUTZ01euC68YFrX5qrozJ05JFvjM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">CurrentLocation</string>
+    <string name="toast_location_permission_alert">Please Give location access permissions!</string>
+    <string name="toast_location_permission_thanks">Thank you for granting location permission!</string>
+    <string name="toast_location_failed">Failed to get location info!</string>
+</resources>
