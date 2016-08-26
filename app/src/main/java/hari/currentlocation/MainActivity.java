@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +23,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public static String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private GoogleApiClient mGoogleApiClient;
     private TextView tv_location_info, tv_location_updates_info;
-
+    private Location mLocation;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         if (!checkLocationPermission())
             requestPermission(PERMISSIONS_LOCATION, REQUEST_PERMISSION_LOCATION);
         buildGoogleAdiClient();
+
+        findViewById(R.id.btn_map).setOnClickListener(this::onClick);
     }
 
     @Override
@@ -64,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (checkLocationPermission()) {
-            Location mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLocation != null) {
                 tv_location_info.setText(String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
             }
@@ -145,5 +148,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         Toast.makeText(MainActivity.this, message, Toast.LENGTH_SHORT).show();
     }
 
+    private void onClick(View view) {
+        MapActivity.start(this, Double.parseDouble(String.valueOf(mLocation.getLatitude())), Double.parseDouble(String.valueOf(mLocation.getLongitude())));
+    }
 
 }
