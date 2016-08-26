@@ -21,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     public static final int REQUEST_PERMISSION_LOCATION = 1;
     public static String[] PERMISSIONS_LOCATION = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     private GoogleApiClient mGoogleApiClient;
-    private Location mLocation;
     private TextView tv_location_info, tv_location_updates_info;
 
     @Override
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onConnected(@Nullable Bundle bundle) {
         if (checkLocationPermission()) {
-            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Location mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLocation != null) {
                 tv_location_info.setText(String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
             }
@@ -78,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     @Override
     public void onLocationChanged(Location location) {
         if (checkLocationPermission()) {
-            mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            Location mLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (mLocation != null) {
                 tv_location_updates_info.setText(String.valueOf(mLocation.getLatitude()) + " " + String.valueOf(mLocation.getLongitude()));
             }
